@@ -1,35 +1,31 @@
 package dataDB;
 
 import conexionDB.ConexionDB;
-import entidades.User;
+import entidades.NewsAgency;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+
 
 /**
  * Created by cgallo on 06/06/20.
  */
 
-public class DBUser {
+public class DBNewsAgency {
 
-    public static User getUser(String username, String password) {
-        User user = null;
+    public static NewsAgency getById(int id) {
+        NewsAgency news_agency = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             stmt = ConexionDB.getInstancia().getConexion().prepareStatement(
-                    "select id, username, password, first_name, last_name, email, is_staff, is_active, " +
-                            "is_superuser, last_login, date_joined from user where username = ? and password = ?"
+                    "SELECT id, description, home_path, is_active FROM news_agency where id = ?"
             );
-            stmt.setString(1, username);
-            stmt.setString(2, password);
+            stmt.setInt(1, id);
             rs = stmt.executeQuery();
             if (rs != null && rs.next()) {
-                user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"),
-                        rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"),
-                        rs.getBoolean("is_staff"), rs.getBoolean("is_active"), rs.getBoolean("is_superuser"),
-                        rs.getDate("last_login"), rs.getDate("date_joined"));
+                news_agency = new NewsAgency(rs.getInt("id"), rs.getString("description"),
+                        rs.getString("home_path"), rs.getBoolean("is_active"));
 
             }
         } catch (SQLException e) {
@@ -43,28 +39,27 @@ public class DBUser {
             }
             ConexionDB.getInstancia().releaseConexion();
         }
-        return user;
+        return news_agency;
     }
 
-    public static void save(User user) {
+    public static void save(NewsAgency news_agency) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        String stmtSQL;
+        int news_agency_id = news_agency.getId();
         try {
-            stmt = ConexionDB.getInstancia().getConexion().prepareStatement(
-                    "insert into user(username, password, first_name, last_name, email, is_staff, is_active, " +
-                            "is_superuser, last_login, date_joined) values (?,?,?,?,?,?,?,?,?,?)",
+            stmt.setString(1, news_agency.getDescription());
+            stmt.setString(2, news_agency.getHomePath());
+            stmt.setBoolean(3, news_agency.getIsActive());
+            if (news_agency_id > 0) {
+                stmtSQL = "insert into news_agency(description, home_path, is_active) values (?,?,?)";
+            } else {
+                stmtSQL = "update news_agency set description = ?, home_path = ?, is_active = ?) where id = ?";
+                stmt.setInt(4, news_agency_id);
+            }
+            stmt = ConexionDB.getInstancia().getConexion().prepareStatement(stmtSQL,
                     PreparedStatement.RETURN_GENERATED_KEYS
             );
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getPassword());
-            stmt.setString(3, user.getFirstName());
-            stmt.setString(4, user.getLastName());
-            stmt.setString(5, user.getEmail());
-            stmt.setBoolean(6, user.getIsStaff());
-            stmt.setBoolean(7, user.getIsActive());
-            stmt.setBoolean(8, user.getIsSuperuser());
-            stmt.setDate(9, user.getLastLogin());
-            stmt.setDate(10, user.getDateJoined());
             stmt.execute();
             rs = stmt.getGeneratedKeys();
         } catch (SQLException e) {
@@ -80,13 +75,13 @@ public class DBUser {
         }
     }
 
-    public static void delete(User user) {
+    public static void delete(NewsAgency news_agency) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             stmt = ConexionDB.getInstancia().getConexion().prepareStatement(
-                    "delete from user where id = ?;");
-            stmt.setInt(1, user.getId());
+                    "delete from news_agency where id = ?;");
+            stmt.setInt(1, news_agency.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

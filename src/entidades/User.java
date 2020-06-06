@@ -115,5 +115,9 @@ public class User {
     public void setDateJoined(java.sql.Date date_joined) {
         this.date_joined = date_joined;
     }
+
+    public int getId() {
+        return id;
+    }
 }
 
