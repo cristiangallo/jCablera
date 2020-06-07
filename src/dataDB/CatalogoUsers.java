@@ -21,14 +21,14 @@ public class CatalogoUsers {
     // hago privado el constructor para que nadie pueda instanciarlo
     private CatalogoUsers() {}
 
-    public User getUser(String username, String password) throws appException  {
-        User user = DBUser.getUser(username, password);
+    public User getUser(String email, String password) throws appException  {
+        User user = DBUser.getUser(email, password);
         if (user == null) throw new appException("Nombre de usuario o contraseña inválida.");
         return user;
     }
 
-    public User login(String username, String password) throws appException {
-        User user = this.getUser(username, password);
+    public User login(String email, String password) throws appException {
+        User user = this.getUser(email, password);
         if (user.getIsActive()) throw new appException("Usuario inactivo.");
         return user;
     }

@@ -13,16 +13,16 @@ import java.util.Date;
 
 public class DBUser {
 
-    public static User getUser(String username, String password) {
+    public static User getUser(String email, String password) {
         User user = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             stmt = ConexionDB.getInstancia().getConexion().prepareStatement(
                     "select id, email, password, first_name, last_name, is_staff, is_active, " +
-                            "is_superuser, last_login, date_joined from user where username = ? and password = ?"
+                            "is_superuser, last_login, date_joined from user where email = ? and password = ?"
             );
-            stmt.setString(1, username);
+            stmt.setString(1, email);
             stmt.setString(2, password);
             rs = stmt.executeQuery();
             if (rs != null && rs.next()) {

@@ -13,8 +13,8 @@ public class ControladorUsers {
 
     private CatalogoUsers catUsers = CatalogoUsers.getInstance();
 
-    public User login(String username, String password) throws appException {
-        User user = catUsers.login(username, password);
+    public User login(String email, String password) throws appException {
+        User user = catUsers.login(email, password);
         return user;
     }
     /**
@@ -22,10 +22,11 @@ public class ControladorUsers {
      */
     public static void main(String[] args) {
 
-
                 try {
                     ControladorUsers ctrlUsers = new ControladorUsers();
-                    ctrlUsers.login("cgallo", "popo");
+                    User user = ctrlUsers.login("crgallo@frro.utn.edu.ar", "123");
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
