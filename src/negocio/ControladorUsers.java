@@ -22,14 +22,14 @@ public class ControladorUsers {
      */
     public static void main(String[] args) {
 
-                try {
-                    ControladorUsers ctrlUsers = new ControladorUsers();
-                    User user = ctrlUsers.login("crgallo@frro.utn.edu.ar", "123");
+        try {
+            ControladorUsers ctrlUsers = new ControladorUsers();
+            User user = ctrlUsers.login("crgallo@frro.utn.edu.ar", "123");
 
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
