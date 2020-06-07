@@ -47,16 +47,17 @@ public class DBContent {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String stmtSQL;
-        int news_agency_id = content.getId();
+        int content_id = content.getId();
         try {
-            stmt.setString(1, content.getDescription());
-            stmt.setString(2, content.getHomePath());
-            stmt.setBoolean(3, content.getIsActive());
-            if (news_agency_id > 0) {
-                stmtSQL = "insert into content(description, home_path, is_active) values (?,?,?)";
+            stmt.setInt(1, content.getNewsAgencyId());
+            stmt.setInt(2, content.getUserId());
+            // stmt.setDate(3, content.getModified());
+            // stmt.setDate(3, content.getCreated());
+            if (content_id > 0) {
+                stmtSQL = "insert into content(news_agency_id, user_id) values (?,?,?)";
             } else {
-                stmtSQL = "update content set description = ?, home_path = ?, is_active = ?) where id = ?";
-                stmt.setInt(4, news_agency_id);
+                stmtSQL = "update content set news_agency_id = ?, user_id = ?) where id = ?";
+                stmt.setInt(4, content_id);
             }
             stmt = ConexionDB.getInstancia().getConexion().prepareStatement(stmtSQL,
                     PreparedStatement.RETURN_GENERATED_KEYS

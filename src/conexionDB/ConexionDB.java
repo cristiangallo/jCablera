@@ -9,7 +9,7 @@ public class ConexionDB {
 	String sqlDriver = "com.mysql.jdbc.Driver";
 	String host = "localhost";
 	String port = "3306";
-	String user = "root";
+	String user = "cgallo";
 	String pass = "";
 	String db = "cablera";
 

@@ -9,7 +9,6 @@ import java.util.Date;
 
 public class User {
     private int id;
-    private String username;
     private String first_name;
     private String last_name;
     private String email;
@@ -21,10 +20,9 @@ public class User {
     private Date date_joined;
 
     // constructor para usuario guardado
-    public User(int id, String username, String password, String first_name, String last_name, String email,
-                boolean is_staff, boolean is_active, boolean is_superuser, Date last_login, Date date_joined) {
+    public User(int id, String email, String password, String first_name, String last_name, boolean is_staff,
+                boolean is_active, boolean is_superuser, Date last_login, Date date_joined) {
         this.id = id;
-        this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -34,14 +32,6 @@ public class User {
         this.is_superuser = is_superuser;
         this.last_login = last_login;
         this.date_joined = date_joined;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
@@ -119,5 +109,6 @@ public class User {
     public int getId() {
         return id;
     }
+
 }
 
